@@ -1,2 +1,7 @@
+install:
+	composer install
+
+update:
+	composer update
 run:
-	exec ./yii serve --port=3030
+	./yii serve --port=3030
