@@ -13,9 +13,9 @@ use yii\helpers\VarDumper;
 
 class ForecastController extends Controller {
 
-  public function actionHistory ($city, $days, $format = 'json') {
+  public function actionHistory ($city, $date, $format = 'json') {
     $apiKey = Yii::$app->params['apiKey'];
-    $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$city}&num_of_days={$days}&format={$format}";
+    $url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key={$apiKey}&q={$city}&date={$date}&format={$format}";
 
     $client = new Client();
 
@@ -31,7 +31,7 @@ class ForecastController extends Controller {
         $acc[$item['date']] = ($item['maxtempC'] + $item['mintempC']) / 2;
         return $acc;
       };
-      
+
       $weather = array_reduce($data, $callback, []);
       VarDumper::dump($weather, 10, true);
     }
