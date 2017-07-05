@@ -4,6 +4,6 @@ use yii\helpers\Html;
 ?>
 <?php $f = ActiveForm::begin(); ?>
   <?= $f->field($form, 'city'); ?>
-  <?= $f->field($form, 'date'); ?>
+  <?= $f->field($form, 'days'); ?>
   <?= Html::submitButton('Send'); ?>
 <?php ActiveForm::end(); ?>
