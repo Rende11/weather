@@ -8,6 +8,7 @@ use app\models\ForecastForm;
 use yii\helpers\VarDumper;
 use app\services\WeatherService;
 
+use yii\base\Exception;
 
 class ForecastController extends Controller {
 
@@ -17,13 +18,17 @@ class ForecastController extends Controller {
     $form = new ForecastForm();
 
     if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-        $weatherService = new WeatherService($form->city, $form->days);
-        $forecast = $weatherService->getForecast();
 
+        try {
+          $weatherService = new WeatherService($form->city, $form->days);
+          $forecast = $weatherService->getForecast();
+          return $this->render('forecast-success', ['form' => $form, 'forecast' => $forecast]);
+        } catch (Exeption $e) {
+          // return $this->render('error', ['message' => $e->getMessage()]);
+          return 'LOLO';
+        }
 
-        return $this->render('forecast-success', ['form' => $form, 'forecast' => $forecast]);
-      } else {
-        return $this->render('forecast', ['form' => $form]);
       }
+      return $this->render('forecast', ['form' => $form]);
   }
 }

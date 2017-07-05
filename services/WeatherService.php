@@ -4,6 +4,7 @@ namespace app\services;
 use Yii;
 use yii\httpclient\Client;
 use yii\helpers\VarDumper;
+use yii\base\Exception;
 
 class WeatherService {
   private $city;
@@ -19,24 +20,31 @@ class WeatherService {
     $apiKey = Yii::$app->params['apiKey'];
     $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$this->city}&num_of_days={$this->days}&format={$this->format}";
     $client = new Client();
+
     $response = $client->createRequest()
         ->setMethod('get')
         ->setUrl($url)
         ->send();
-    if ($response->isOk) {
-      $location = $response->data['data']['request'][0]['query'];
 
+    if ($response->isOk ) {
+      if (isset($response->data['data']['error'])) {
+        throw new Exception("Wrong input");
+      }
+
+      $location = $response->data['data']['request'][0]['query'];
       $weather = $response->data['data']['weather'];
+
       $everyDay = array_map(function ($value) use ($location) {
-          $average = ($value['maxtempC'] + $value['mintempC']) / 2;
-          return ['date' => $value['date'], 'average' => $average];
-      }, $weather);
+            $average = ($value['maxtempC'] + $value['mintempC']) / 2;
+            return ['date' => $value['date'], 'average' => $average];
+        }, $weather);
+
       return [
         'city' => $location,
         'weather' => $everyDay
       ];
     } else {
-      return 'Error';
+      throw new Exception("Request failed");
     }
 
   }
