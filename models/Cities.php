@@ -3,14 +3,14 @@
 namespace app\models;
 use yii\db\ActiveRecord;
 
-class Forecast extends ActiveRecord {
+class Cities extends ActiveRecord {
 
   /**
    * @return string table name
    */
 
    public static function tableName() {
-     return '{{weather}}';
+     return '{{cities}}';
    }
 
 }
