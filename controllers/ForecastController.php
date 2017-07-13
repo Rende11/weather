@@ -7,6 +7,8 @@ use yii\web\Controller;
 use yii\helpers\VarDumper;
 
 use app\services\WeatherService;
+use app\services\WeatherRepository;
+
 use app\models\ForecastForm;
 
 // DB models
@@ -26,29 +28,7 @@ class ForecastController extends Controller {
 
           $weatherService = new WeatherService($form->city, $form->days);
           $forecast = $weatherService->getForecast();
-
-          $cities = new Cities();
-          $cities->city = $forecast['city'];
-          $cities->save();
-
-          $c = Cities::find()
-            ->where(['id' => 1])
-            ->one();
-
-          VarDumper::dump($c);
-          exit();
-          foreach ($forecast['weather'] as $day) {
-            $weather = new Forecast();
-            $weather->date = $day['date'];
-            $weather->city_id = 11;
-            $weather->averageTempC = $day['average'];
-            $weather->save();
-          }
           return $this->render('forecast-success', ['form' => $form, 'forecast' => $forecast]);
-        // } catch (Exeption $e) {
-        //   // return $this->render('error', ['message' => $e->getMessage()]);
-        //   return 'LOLO';
-        // }
 
       }
       return $this->render('forecast', ['form' => $form]);

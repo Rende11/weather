@@ -4,6 +4,8 @@ namespace app\services;
 use Yii;
 use yii\httpclient\Client;
 
+// use app\services\WeatherRepository;
+
 use yii\helpers\VarDumper;
 use yii\base\Exception;
 
@@ -34,12 +36,15 @@ class WeatherService {
 
       $location = $response->data['data']['request'][0]['query'];
       $weather = $response->data['data']['weather'];
-
+      // VarDumper::dump($response, 10, true);
+      // exit();
       $everyDay = array_map(function ($value) use ($location) {
             $average = ($value['maxtempC'] + $value['mintempC']) / 2;
             return ['date' => $value['date'], 'average' => $average];
         }, $weather);
 
+      $repos = new WeatherRepository();
+      $repos->saveForecast(null, null);
       return [
         'city' => $location,
         'weather' => $everyDay
