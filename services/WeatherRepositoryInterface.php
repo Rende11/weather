@@ -4,5 +4,5 @@ namespace app\services;
 
 interface WeatherRepositoryInterface {
 
-  public function saveForecast($city, $averegeByDay);
+  public function saveForecast($dailyWeather);
 }

@@ -12,6 +12,7 @@ use yii\base\Exception;
 class WeatherService {
   private $city;
   private $days;
+  private $format;
 
   public function __construct($city, $days, $format = 'json') {
       $this->city = $city;
@@ -34,27 +35,28 @@ class WeatherService {
         throw new Exception("Wrong input");
       }
 
-      $location = $response->data['data']['request'][0]['query'];
+      $city = $response->data['data']['request'][0]['query'];
       $weather = $response->data['data']['weather'];
 
       if ($weather) {
-        $everyDay = array_map(function ($value) use ($location) {
-            $average = ($value['maxtempC'] + $value['mintempC']) / 2;
-            return ['date' => $value['date'], 'average' => $average];
+        $dailyWeather = array_map(function ($day) use ($city) {
+            $average = ($day['maxtempC'] + $day['mintempC']) / 2;
+            return ['city' => $city, 'date' => $day['date'], 'average' => $average];
         }, $weather);
       } else {
         throw new Exception("Error Processing Request", 1);
-
       }
-      $repos = new WeatherRepository();
-      $repos->saveForecast($location, $everyDay);
-      return [
-        'city' => $location,
-        'weather' => $everyDay
-      ];
+
+      return $dailyWeather;
     } else {
       throw new Exception("Request failed");
     }
 
+  }
+
+  public function saveForecast($dailyWeather)
+  {
+    $repository = new WeatherRepository();
+    $repository->saveForecast($dailyWeather);
   }
 }

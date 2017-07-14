@@ -13,4 +13,11 @@ class Forecast extends ActiveRecord {
      return '{{weather}}';
    }
 
+   public function rules()
+   {
+     return [
+       ['id', 'unique'],
+       ['date', 'date']
+   ];
+   }
 }
