@@ -36,15 +36,18 @@ class WeatherService {
 
       $location = $response->data['data']['request'][0]['query'];
       $weather = $response->data['data']['weather'];
-      // VarDumper::dump($response, 10, true);
-      // exit();
-      $everyDay = array_map(function ($value) use ($location) {
+
+      if ($weather) {
+        $everyDay = array_map(function ($value) use ($location) {
             $average = ($value['maxtempC'] + $value['mintempC']) / 2;
             return ['date' => $value['date'], 'average' => $average];
         }, $weather);
+      } else {
+        throw new Exception("Error Processing Request", 1);
 
+      }
       $repos = new WeatherRepository();
-      $repos->saveForecast(null, null);
+      $repos->saveForecast($location, $everyDay);
       return [
         'city' => $location,
         'weather' => $everyDay

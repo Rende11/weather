@@ -13,4 +13,8 @@ class Cities extends ActiveRecord {
      return '{{cities}}';
    }
 
+   public function rules()
+   {
+     return [['city', 'unique']];
+   }
 }
