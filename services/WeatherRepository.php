@@ -12,7 +12,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
 
   public function saveForecast($dailyWeather)
   {
-      
+
       $city = $dailyWeather[0]['city'];
       $cities = new Cities();
       $cities->city = $city;
@@ -28,6 +28,11 @@ class WeatherRepository implements WeatherRepositoryInterface {
       $connection->createCommand()->batchInsert('weather', ['city_id', 'date', 'averageTempC'],
           $data)->execute();
 
+  }
+
+  public function getForecast($city, $from, $to)
+  {
+    
   }
 
 }

@@ -59,4 +59,10 @@ class WeatherService {
     $repository = new WeatherRepository();
     $repository->saveForecast($dailyWeather);
   }
+
+  public function getData($city, $from, $to)
+  {
+    $repository = new WeatherRepository();
+    return $repository->getForecast($city, $from, $to);
+  }
 }

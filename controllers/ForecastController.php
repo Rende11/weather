@@ -30,8 +30,9 @@ class ForecastController extends Controller {
       return $this->render('forecast', ['form' => $form]);
   }
 
-  public function actionShow()
+  public function actionWeather()
   {
-    return $this->render('show');
+    $data = [];
+    return $this->render('weather', ['data' => $data]);
   }
 }
