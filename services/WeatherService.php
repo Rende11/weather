@@ -10,19 +10,11 @@ use yii\helpers\VarDumper;
 use yii\base\Exception;
 
 class WeatherService {
-  private $city;
-  private $days;
-  private $format;
 
-  public function __construct($city, $days, $format = 'json') {
-      $this->city = $city;
-      $this->days = $days;
-      $this->format = $format;
-  }
 
-  public function getForecast(){
+  public function getForecastRequest($city, $days, $format = 'json'){
     $apiKey = Yii::$app->params['apiKey'];
-    $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$this->city}&num_of_days={$this->days}&format={$this->format}";
+    $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$city}&num_of_days={$days}&format={$format}";
     $client = new Client();
 
     $response = $client->createRequest()
@@ -46,7 +38,6 @@ class WeatherService {
       } else {
         throw new Exception("Error Processing Request", 1);
       }
-
       return $dailyWeather;
     } else {
       throw new Exception("Request failed");
@@ -60,7 +51,7 @@ class WeatherService {
     $repository->saveForecast($dailyWeather);
   }
 
-  public function getData($city, $from, $to)
+  public function getForecast($city, $from, $to)
   {
     $repository = new WeatherRepository();
     return $repository->getForecast($city, $from, $to);

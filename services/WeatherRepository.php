@@ -19,8 +19,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
       $cities->save();
 
       $city_id = Cities::findOne(['city' => $city])->attributes['id'];
-      VarDumper::dump($city_id, 10, true);
-      exit();
+
       $data = array_map(function ($day) use ($city_id){
         return [$city_id, $day['date'], $day['average']];
       }, $dailyWeather);
@@ -33,10 +32,19 @@ class WeatherRepository implements WeatherRepositoryInterface {
 
   public function getForecast($city, $from, $to)
   {
-      $city_id = Cities::findOne(['city' => $city])->attributes['id'];
-      $query = Forecast::find()->where(['city_id' => $city_id])->where(['between', 'date', $from, $to])->asArray()->all();
-      return $query;
 
+      $citySelect = Cities::find()->where(['like', 'city', $city])->one();
+
+      if ($citySelect) {
+        $city_id = $citySelect->attributes['id'];
+        $query = Forecast::find()
+          ->where(['city_id' => $city_id])
+          ->andWhere(['between', 'date', $from, $to])
+          ->asArray()
+          ->all();
+        return $query;
+      } else {
+        return "Wrong City";
+      }
   }
-
 }

@@ -21,8 +21,8 @@ class ForecastController extends Controller {
     $form = new ForecastForm();
     if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 
-          $weatherService = new WeatherService($form->city, $form->days);
-          $forecast = $weatherService->getForecast();
+          $weatherService = new WeatherService();
+          $forecast = $weatherService->getForecastRequest($form->city, $form->days);
           $weatherService->saveForecast($forecast);
           return $this->render('forecast-success', ['form' => $form, 'forecast' => $forecast]);
 
@@ -32,8 +32,9 @@ class ForecastController extends Controller {
 
   public function actionWeather()
   {
-    $weatherService = new WeatherService('Moscow, Russian Federation', 0);
-    $weather = $weatherService->getData('Kiev, Ukraine', '2017-07-19', '2017-07-21 ');
+    $weatherService = new WeatherService();
+    $city = 'MoS';
+    $weather = $weatherService->getForecast($city, '2017-07-19', '2017-07-29');
     return $this->render('weather', ['data' => $weather]);
   }
 }
