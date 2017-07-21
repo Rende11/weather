@@ -32,7 +32,8 @@ class ForecastController extends Controller {
 
   public function actionWeather()
   {
-    $data = [];
-    return $this->render('weather', ['data' => $data]);
+    $weatherService = new WeatherService('Moscow, Russian Federation', 0);
+    $weather = $weatherService->getData('Kiev, Ukraine', '2017-07-19', '2017-07-21 ');
+    return $this->render('weather', ['data' => $weather]);
   }
 }

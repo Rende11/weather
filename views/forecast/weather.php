@@ -1,5 +1,5 @@
 <?php
 	use yii\helpers\Html;
-?>
+	use yii\helpers\VarDumper;
 
-<?= Html::encode($data) ?>
+	VarDumper::dump($data, 10, true);
