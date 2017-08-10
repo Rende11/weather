@@ -33,7 +33,7 @@ class WeatherService {
       if ($weather) {
         $dailyWeather = array_map(function ($day) use ($city) {
             $average = ($day['maxtempC'] + $day['mintempC']) / 2;
-            return ['city' => $city, 'date' => $day['date'], 'average' => $average];
+            return ['city' => $city, 'date' => $day['date'], 'averageTempC' => $average];
         }, $weather);
       } else {
         throw new Exception("Error Processing Request", 1);

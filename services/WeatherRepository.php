@@ -21,7 +21,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
       $city_id = Cities::findOne(['city' => $city])->attributes['id'];
 
       $data = array_map(function ($day) use ($city_id){
-        return [$city_id, $day['date'], $day['average']];
+        return [$city_id, $day['date'], $day['averageTempC']];
       }, $dailyWeather);
 
       $connection = Yii::$app->db;
