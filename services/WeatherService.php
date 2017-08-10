@@ -4,8 +4,6 @@ namespace app\services;
 use Yii;
 use yii\httpclient\Client;
 
-// use app\services\WeatherRepository;
-
 use yii\helpers\VarDumper;
 use yii\base\Exception;
 
@@ -35,12 +33,8 @@ class WeatherService {
             $average = ($day['maxtempC'] + $day['mintempC']) / 2;
             return ['city' => $city, 'date' => $day['date'], 'averageTempC' => $average];
         }, $weather);
-      } else {
-        throw new Exception("Error Processing Request", 1);
       }
       return $dailyWeather;
-    } else {
-      throw new Exception("Request failed");
     }
 
   }

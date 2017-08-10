@@ -3,10 +3,10 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
-$f = ActiveForm::begin();
+ActiveForm::begin();
 
 ?>
-<?php foreach ($forecast as $day): ?>
+<?php foreach ($weather as $day): ?>
 
     <li>
         <?= Html::encode("Date: {$day['date']} Temp: {$day['averageTempC']}") ?>

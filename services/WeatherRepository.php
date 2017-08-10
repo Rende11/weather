@@ -43,8 +43,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
           ->asArray()
           ->all();
         return $query;
-      } else {
-        return "Wrong City";
       }
+      return [];
   }
 }

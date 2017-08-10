@@ -8,38 +8,40 @@ use yii\helpers\VarDumper;
 
 use app\services\WeatherService;
 
-use app\models\ForecastForm;
-use app\models\ForecastGet;
+use app\models\ForecastInput;
+use app\models\WeatherGet;
 
-
-
-use yii\base\Exception;
 
 class ForecastController extends Controller {
 
   public function actionIndex() {
 
-    $form = new ForecastForm();
+    $form = new ForecastInput();
     if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 
           $weatherService = new WeatherService();
           $forecast = $weatherService->getForecastRequest($form->city, $form->days);
           $weatherService->saveForecast($forecast);
-          return $this->render('forecast-success', ['form' => $form, 'forecast' => $forecast]);
+          return $this->render('forecast-save-success', ['form' => $form, 'forecast' => $forecast]);
 
       }
-      return $this->render('forecast', ['form' => $form]);
+      return $this->render('forecast-input', ['form' => $form]);
   }
 
   public function actionWeather()
   {
-		$form = new ForecastGet();
+		$form = new WeatherGet();
 		
 		if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 		    $weatherService = new WeatherService();
-				$weather = $weatherService->getForecast($form->city, '2017-07-19', '2017-07-29');
-				return $this->render('forecast-get', ['form' => $form, 'forecast' => $weather]);
+				$weather = $weatherService->getForecast($form->city, $form->from, $form->to);
+				if (sizeof($weather) > 0) {
+					VarDumper::dump($weather, 10, true);
+					exit(0);
+					return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
+				}
+				return $this->render('error', ['message' => 'Wrong request']);		
 		}
-		return $this->render('forecast-get', ['form' => $form]);
+		return $this->render('weather-get', ['form' => $form]);
   }
 }

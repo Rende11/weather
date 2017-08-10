@@ -5,13 +5,15 @@ namespace app\models;
 
 use yii\base\Model;
 
-class ForecastGet extends Model {
+class WeatherGet extends Model {
 
     public $city;
+		public $from;
+		public $to;
 
     public function rules() {
       return [
-        ['city', 'required'],
+        [['city', 'from', 'to'], 'required'],
       ];
     }
 
