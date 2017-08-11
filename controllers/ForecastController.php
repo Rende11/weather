@@ -36,8 +36,6 @@ class ForecastController extends Controller {
 		    $weatherService = new WeatherService();
 				$weather = $weatherService->getForecast($form->city, $form->from, $form->to);
 				if (sizeof($weather) > 0) {
-					VarDumper::dump($weather, 10, true);
-					exit(0);
 					return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
 				}
 				return $this->render('error', ['message' => 'Wrong request']);		

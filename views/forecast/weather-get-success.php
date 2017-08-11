@@ -6,12 +6,15 @@ use yii\helpers\VarDumper;
 ActiveForm::begin();
 
 ?>
-<?php foreach ($weather as $day): ?>
-
-    <li>
-        <?= Html::encode("Date: {$day['date']} Temp: {$day['averageTempC']}") ?>
-    </li>
-<?php endforeach; ?>
+		<table>
+			<?php 
+				for($i = 0; $i < sizeof($weather); $i++) {
+				echo	Html::encode("Temp: {$weather[$i]['averageTempC']} ");
+				if ($i > 0 && $i % 7 === 0) {
+						echo '<br>';
+					}
+				} ?>
+		</table>
 
 <?php
  ActiveForm::end();
