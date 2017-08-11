@@ -24,9 +24,22 @@ class WeatherRepository implements WeatherRepositoryInterface {
         return [$city_id, $day['date'], $day['averageTempC']];
       }, $dailyWeather);
 
+			$currentCityForecast = Forecast::findAll(['city_id' => $city_id]);
+
+			$currentForecastDays = array_map(function($day) {
+				return $day['date'];
+			}, $currentCityForecast);
+
+			
+			$filteredData = array_filter($data, function($day) use($currentForecastDays) {
+				list($id, $date, $averageTemp) = $day;
+				return !in_array($date, $currentForecastDays);
+			});	
+
+
       $connection = Yii::$app->db;
       $connection->createCommand()->batchInsert('weather', ['city_id', 'date', 'averageTempC'],
-          $data)->execute();
+          $filteredData)->execute();
 
   }
 
@@ -34,7 +47,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
   {
 
       $citySelect = Cities::find()->where(['like', 'city', $city])->one();
-
+			$query = [];
       if ($citySelect) {
         $city_id = $citySelect->attributes['id'];
         $query = Forecast::find()
@@ -42,8 +55,7 @@ class WeatherRepository implements WeatherRepositoryInterface {
           ->andWhere(['between', 'date', $from, $to])
           ->asArray()
           ->all();
-        return $query;
       }
-      return [];
+      return $query;
   }
 }

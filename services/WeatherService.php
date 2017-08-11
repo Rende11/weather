@@ -27,6 +27,8 @@ class WeatherService {
 
       $city = $response->data['data']['request'][0]['query'];
       $weather = $response->data['data']['weather'];
+			
+			$dailyWeather = [];
 
       if ($weather) {
         $dailyWeather = array_map(function ($day) use ($city) {
@@ -34,7 +36,7 @@ class WeatherService {
             return ['city' => $city, 'date' => $day['date'], 'averageTempC' => $average];
         }, $weather);
       }
-      return $dailyWeather;
+			return $dailyWeather;
     }
 
   }
