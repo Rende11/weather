@@ -52,4 +52,11 @@ class WeatherService {
     $repository = new WeatherRepository();
     return $repository->getForecast($city, $from, $to);
   }
+
+	public function getWeeklyForecast($city, $from, $to, $size = 7)
+	{
+		$daily = $this->getForecast($city, $from, $to);
+		return array_chunk($daily, $size);
+	}
+	
 }

@@ -14,19 +14,18 @@ use app\models\WeatherGet;
 
 class ForecastController extends Controller {
 
-  public function actionIndex() {
-
+	public function actionIndex() 
+	{
     $form = new ForecastInput();
-    if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-
+ 
+		if ($form->load(Yii::$app->request->post()) && $form->validate()) {
           $weatherService = new WeatherService();
 					$forecast = $weatherService->getForecastRequest($form->city, $form->days);
-					if (count($forecase) == 0) {
+					if (sizeof($forecase) == 0) {
 						return $this->render('error', ['message' => 'Wrong request']);
 					}
           $weatherService->saveForecast($forecast);
           return $this->render('forecast-save-success', ['form' => $form, 'forecast' => $forecast]);
-
       }
       return $this->render('forecast-input', ['form' => $form]);
   }
@@ -37,11 +36,11 @@ class ForecastController extends Controller {
 		
 		if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 		    $weatherService = new WeatherService();
-				$weather = $weatherService->getForecast($form->city, $form->from, $form->to);
-				if (sizeof($weather) > 0) {
-					return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
+				$weather = $weatherService->getWeeklyForecast($form->city, $form->from, $form->to);
+				if (sizeof($weather) == 0) {
+					return $this->render('error', ['message' => 'Data is not avalible']);		
 				}
-				return $this->render('error', ['message' => 'Wrong request']);		
+				return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
 		}
 		return $this->render('weather-get', ['form' => $form]);
   }

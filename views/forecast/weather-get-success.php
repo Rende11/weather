@@ -7,13 +7,14 @@ ActiveForm::begin();
 
 ?>
 		<table>
-			<?php 
+		<?php 
 				for($i = 0; $i < sizeof($weather); $i++) {
-				echo	Html::encode("Temp: {$weather[$i]['averageTempC']} ");
-				if ($i > 0 && $i % 7 === 0) {
-						echo '<br>';
-					}
-				} ?>
+						array_map(function($day) {
+							echo	Html::encode("Temp: {$day['averageTempC']} ");
+						}, $weather[$i]);
+						echo "<br>";
+				}
+		?>
 		</table>
 
 <?php
