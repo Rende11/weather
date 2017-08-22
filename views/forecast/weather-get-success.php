@@ -3,10 +3,11 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
+$this->registerCssFile("../../web/css/weather.css");
 ActiveForm::begin();
 
 ?>
-		<table cellspacing="5" cellpadding="5" border="1" > 
+		<table border="1" > 
 		<?php 
 			array_map(function($week) {
 							echo "<tr>";
