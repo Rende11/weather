@@ -9,7 +9,7 @@ $f = ActiveForm::begin();
 <?php foreach ($forecast as $day): ?>
 
     <li>
-        <?= Html::encode("Date: {$day['date']} Temp: {$day['averageTempC']}") ?>
+        <?= Html::encode("Date: {$day['date']} Temp: {$day['minTempC']}/{$day['maxTempC']}") ?>
     </li>
 <?php endforeach; ?>
 

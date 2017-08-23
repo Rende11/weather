@@ -10,7 +10,8 @@ class m170719_090121_create_tables extends Migration
           'id' => $this->primaryKey(),
           'city_id' => $this->integer()->notNull(),
           'date' => $this->date(),
-          'averageTempC' => $this->float()
+          'minTempC' => $this->float(),
+          'maxTempC' => $this->float()
         ]);
 
         $this->createTable('cities', [

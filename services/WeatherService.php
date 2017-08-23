@@ -32,8 +32,8 @@ class WeatherService {
 
       if ($weather) {
         $dailyWeather = array_map(function ($day) use ($city) {
-            $average = ($day['maxtempC'] + $day['mintempC']) / 2;
-            return ['city' => $city, 'date' => $day['date'], 'averageTempC' => $average];
+            //$average = ($day['maxtempC'] + $day['mintempC']) / 2;
+            return ['city' => $city, 'date' => $day['date'], 'minTempC' => $day['mintempC'], 'maxTempC' => $day['maxtempC']];
         }, $weather);
       }
 			return $dailyWeather;
@@ -56,7 +56,16 @@ class WeatherService {
 	public function getWeeklyForecast($city, $from, $to, $size = 7)
 	{
 		$daily = $this->getForecast($city, $from, $to);
-		return array_chunk($daily, $size);
+		$dateObjects = array_map(function($day) {
+						return [
+										'id' => $day['id'], 
+										'city_id' => $day['city_id'], 
+										'date' => new \DateTime($day['date']),
+										'minTempC' =>	$day['minTempC'], 
+										'maxTempC' => $day['maxTempC']
+						];
+			}, $daily);
+		return array_chunk($dateObjects, $size);
 	}
 	
 }

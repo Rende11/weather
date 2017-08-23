@@ -21,7 +21,7 @@ class ForecastController extends Controller {
 		if ($form->load(Yii::$app->request->post()) && $form->validate()) {
           $weatherService = new WeatherService();
 					$forecast = $weatherService->getForecastRequest($form->city, $form->days);
-					if (sizeof($forecase) == 0) {
+					if (sizeof($forecast) == 0) {
 						return $this->render('error', ['message' => 'Wrong request']);
 					}
           $weatherService->saveForecast($forecast);

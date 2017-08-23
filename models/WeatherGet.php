@@ -18,3 +18,8 @@ class WeatherGet extends Model {
     }
 
 }
+
+/*
+ * Number of week  W
+ * Name of month F
+ * */
