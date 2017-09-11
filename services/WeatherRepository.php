@@ -36,8 +36,11 @@ class WeatherRepository implements WeatherRepositoryInterface
 
 
         $connection = Yii::$app->db;
-        $connection->createCommand()->batchInsert('weather', ['city_id', 'date', 'minTempC', 'maxTempC'],
-          $filteredData)->execute();
+        $connection->createCommand()->batchInsert(
+            'weather',
+            ['city_id', 'date', 'minTempC', 'maxTempC'],
+          $filteredData
+        )->execute();
     }
 
     public function getForecast($city, $from, $to)
