@@ -2,21 +2,20 @@
 
 namespace app\models;
 
-
 use yii\base\Model;
 
-class WeatherGet extends Model {
-
+class WeatherGet extends Model
+{
     public $city;
-		public $from;
-		public $to;
+    public $from;
+    public $to;
 
-    public function rules() {
-      return [
+    public function rules()
+    {
+        return [
         [['city', 'from', 'to'], 'required'],
       ];
     }
-
 }
 
 /*

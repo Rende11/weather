@@ -9,21 +9,21 @@ ActiveForm::begin();
 ?>
 		<table border="1"> 
 <?php
-			echo "<caption>{$weather[0][0]['date']->format('F')}</caption>";
-			array_map(function($week) {
-							echo "<tr>";
-							echo "<td>";
-							echo Html::encode($week[0]['date']->format('W'));
-							echo "</td>";
-							array_map(function($day) {
-								echo "<td>";
-								$string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
-								echo Html::encode($string);
-								echo "</td>";
-							}, $week);
-							echo "</tr><br/>";
-				}, $weather);
-		?>
+            echo "<caption>{$weather[0][0]['date']->format('F')}</caption>";
+            array_map(function ($week) {
+                echo "<tr>";
+                echo "<td>";
+                echo Html::encode($week[0]['date']->format('W'));
+                echo "</td>";
+                array_map(function ($day) {
+                    echo "<td>";
+                    $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
+                    echo Html::encode($string);
+                    echo "</td>";
+                }, $week);
+                echo "</tr><br/>";
+            }, $weather);
+        ?>
 		</table>
 
 <?php

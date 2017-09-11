@@ -7,55 +7,51 @@ use app\models\Cities;
 use yii\helpers\VarDumper;
 use yii;
 
+class WeatherRepository implements WeatherRepositoryInterface
+{
+    public function saveForecast($dailyWeather)
+    {
+        $city = $dailyWeather[0]['city'];
+        $cities = new Cities();
+        $cities->city = $city;
+        $cities->save();
 
-class WeatherRepository implements WeatherRepositoryInterface {
+        $city_id = Cities::findOne(['city' => $city])->attributes['id'];
 
-  public function saveForecast($dailyWeather)
-  {
+        $data = array_map(function ($day) use ($city_id) {
+            return [$city_id, $day['date'], $day['minTempC'], $day['maxTempC']];
+        }, $dailyWeather);
 
-      $city = $dailyWeather[0]['city'];
-      $cities = new Cities();
-      $cities->city = $city;
-      $cities->save();
+        $currentCityForecast = Forecast::findAll(['city_id' => $city_id]);
 
-      $city_id = Cities::findOne(['city' => $city])->attributes['id'];
+        $currentForecastDays = array_map(function ($day) {
+            return $day['date'];
+        }, $currentCityForecast);
 
-      $data = array_map(function ($day) use ($city_id){
-        return [$city_id, $day['date'], $day['minTempC'], $day['maxTempC']];
-      }, $dailyWeather);
-
-			$currentCityForecast = Forecast::findAll(['city_id' => $city_id]);
-
-			$currentForecastDays = array_map(function($day) {
-				return $day['date'];
-			}, $currentCityForecast);
-
-			
-			$filteredData = array_filter($data, function($day) use($currentForecastDays) {
-				list($id, $date, $averageTemp) = $day;
-				return !in_array($date, $currentForecastDays);
-			});	
+            
+        $filteredData = array_filter($data, function ($day) use ($currentForecastDays) {
+            list($id, $date, $averageTemp) = $day;
+            return !in_array($date, $currentForecastDays);
+        });
 
 
-      $connection = Yii::$app->db;
-      $connection->createCommand()->batchInsert('weather', ['city_id', 'date', 'minTempC', 'maxTempC'],
+        $connection = Yii::$app->db;
+        $connection->createCommand()->batchInsert('weather', ['city_id', 'date', 'minTempC', 'maxTempC'],
           $filteredData)->execute();
+    }
 
-  }
-
-  public function getForecast($city, $from, $to)
-  {
-
-      $citySelect = Cities::find()->where(['like', 'city', $city])->one();
-			$query = [];
-      if ($citySelect) {
-        $city_id = $citySelect->attributes['id'];
-        $query = Forecast::find()
+    public function getForecast($city, $from, $to)
+    {
+        $citySelect = Cities::find()->where(['like', 'city', $city])->one();
+        $query = [];
+        if ($citySelect) {
+            $city_id = $citySelect->attributes['id'];
+            $query = Forecast::find()
           ->where(['city_id' => $city_id])
           ->andWhere(['between', 'date', $from, $to])
           ->asArray()
           ->all();
-      }
-      return $query;
-  }
+        }
+        return $query;
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace app\services;
 
-interface WeatherRepositoryInterface {
+interface WeatherRepositoryInterface
+{
+    public function saveForecast($dailyWeather);
 
-  public function saveForecast($dailyWeather);
-
-  public function getForecast($city, $from, $to);
+    public function getForecast($city, $from, $to);
 }

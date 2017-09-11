@@ -29,9 +29,9 @@ class m170719_090121_create_tables extends Migration
 
     public function safeDown()
     {
-      $this->dropIndex('idx-city_id-date', 'weather');
-      $this->dropTable('weather');
-      $this->dropTable('cities');
+        $this->dropIndex('idx-city_id-date', 'weather');
+        $this->dropTable('weather');
+        $this->dropTable('cities');
     }
 
     /*
