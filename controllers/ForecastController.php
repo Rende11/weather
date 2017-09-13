@@ -21,7 +21,7 @@ class ForecastController extends Controller
             $weatherService = new WeatherService();
             $forecast = $weatherService->getForecastRequest($form->city, $form->days);
             if (sizeof($forecast) == 0) {
-                return $this->render('error', ['message' => 'Wrong request']);
+                return $this->render('forecast-input', ['form' => $form, 'error' => "Bad request to remote server please repeat"]);
             }
             $weatherService->saveForecast($forecast);
             return $this->render('forecast-save-success', ['form' => $form, 'forecast' => $forecast]);
