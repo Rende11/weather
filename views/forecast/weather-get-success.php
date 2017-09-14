@@ -20,7 +20,8 @@ function showForecast($weeklyWeather)
 { 
     foreach ($weeklyWeather as $week) {
         $weekNumber = $week[0]['date']->format('W');
-             
+        
+        
 
     }
 }
