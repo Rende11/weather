@@ -3,28 +3,49 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
-//$this->registerCssFile("../../web/css/weather.css");
-ActiveForm::begin();
+function showDay($day) 
+{
+    $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
+    return "<td>" . Html::encode($string) . "</td>";
+}
 
+function showWeek($week) 
+{
+    foreach ($week as $day) {
+        echo showDay($day);
+    }
+}
+
+function showForecast($weeklyWeather) 
+{ 
+    foreach ($weeklyWeather as $week) {
+        $weekNumber = $week[0]['date']->format('W');
+        $forecast = "<tr><td>" . Html::encode($weekNumber) . showWeek($week) . "</td>" ;
+        echo $forecast;
+    }
+}
+
+ActiveForm::begin();
 ?>
-		<table border="1"> 
+
+<table border="1"> 
+
 <?php
-            echo "<caption>{$weather[0][0]['date']->format('F')}</caption>";
-            array_map(function ($week) {
-                echo "<tr>";
-                echo "<td>";
-                echo Html::encode($week[0]['date']->format('W'));
-                echo "</td>";
-                array_map(function ($day) {
-                    echo "<td>";
-                    $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
-                    echo Html::encode($string);
-                    echo "</td>";
-                }, $week);
-                echo "</tr><br/>";
-            }, $weather);
-        ?>
-		</table>
+
+$month = $weather[0][0]['date']->format('F');
+echo "<caption>{$month}</caption>";
+    /*array_map(function ($week) {
+        echo "<tr>";
+        echo "<td>";
+        echo Html::encode($week[0]['date']->format('W'));
+        echo "</td>";
+        showWeek($week);
+    }, $weather);*/
+
+    showForecast($weather);
+?>
+
+</table>
 
 <?php
  ActiveForm::end();

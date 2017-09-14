@@ -4,7 +4,7 @@ install:
 update:
 	composer update
 run:
-	./yii serve --port=3030
+	./yii serve --port=3040
 
 migration-up:
 	./yii migrate

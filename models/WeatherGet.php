@@ -13,8 +13,8 @@ class WeatherGet extends Model
     public function rules()
     {
         return [
-        [['city', 'from', 'to'], 'required'],
-      ];
+            [['city', 'from', 'to'], 'required'],
+        ];
     }
 }
 

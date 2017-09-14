@@ -37,10 +37,12 @@ class ForecastController extends Controller
             $weatherService = new WeatherService();
             $weather = $weatherService->getWeeklyForecast($form->city, $form->from, $form->to);
             if (sizeof($weather) == 0) {
-                return $this->render('error', ['message' => 'Data is not avalible']);
+                return $this->render('weather-get', ['form' => $form, 'error' => 'Data is not avalible']);
             }
+            
             return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
         }
+        
         return $this->render('weather-get', ['form' => $form]);
     }
 }

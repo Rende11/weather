@@ -10,13 +10,14 @@ use yii\helpers\Html;
 ?>
 <?php $viewForm = ActiveForm::begin(); ?>
     <?php if (isset($error)) :?>
-    <div class="site-error">
-      <div class="alert alert-danger">
-      <?= nl2br(Html::encode($error)); ?>
-      </div>
-    </div>
-  <?php endif; ?>
-  <?= $viewForm->field($form, 'city'); ?>
-  <?= $viewForm->field($form, 'days'); ?>
-  <?= Html::submitButton('Send'); ?>
+        <div class="site-error">
+            <div class="alert alert-danger">
+                <?= nl2br(Html::encode($error)); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+<?= $viewForm->field($form, 'city'); ?>
+<?= $viewForm->field($form, 'days'); ?>
+<?= Html::submitButton('Send'); ?>
 <?php ActiveForm::end(); ?>

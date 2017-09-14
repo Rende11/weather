@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'apiKey' => '2de33e1745e543f880783015172806'
+    'apiKey' => '6e83c3ee2e5d4f0194c73608171409'
 ];

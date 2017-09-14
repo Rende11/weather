@@ -16,9 +16,9 @@ class WeatherService
         $client = new Client();
 
         $response = $client->createRequest()
-        ->setMethod('get')
-        ->setUrl($url)
-        ->send();
+            ->setMethod('get')
+            ->setUrl($url)
+            ->send();
 
         if ($response->isOk) {
             if (isset($response->data['data']['error'])) {
