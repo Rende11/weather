@@ -11,17 +11,17 @@ function showDay($day)
 
 function showWeek($week) 
 {
-    foreach ($week as $day) {
-        echo showDay($day);
-    }
+    return array_map(function ($day) {
+        return showDay($day);
+    }, $week);
 }
 
 function showForecast($weeklyWeather) 
 { 
     foreach ($weeklyWeather as $week) {
         $weekNumber = $week[0]['date']->format('W');
-        $forecast = "<tr><td>" . Html::encode($weekNumber) . showWeek($week) . "</td>" ;
-        echo $forecast;
+             
+
     }
 }
 
@@ -32,7 +32,7 @@ ActiveForm::begin();
 
 <?php
 
-$month = $weather[0][0]['date']->format('F');
+$month = $weeklyWeather[0][0]['date']->format('F');
 echo "<caption>{$month}</caption>";
     /*array_map(function ($week) {
         echo "<tr>";
@@ -42,7 +42,7 @@ echo "<caption>{$month}</caption>";
         showWeek($week);
     }, $weather);*/
 
-    showForecast($weather);
+    showForecast($weeklyWeather);
 ?>
 
 </table>

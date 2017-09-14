@@ -35,12 +35,12 @@ class ForecastController extends Controller
         
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $weatherService = new WeatherService();
-            $weather = $weatherService->getWeeklyForecast($form->city, $form->from, $form->to);
-            if (sizeof($weather) == 0) {
+            $weeklyWeather = $weatherService->getWeeklyForecast($form->city, $form->from, $form->to);
+            if (sizeof($weeklyWeather) == 0) {
                 return $this->render('weather-get', ['form' => $form, 'error' => 'Data is not avalible']);
             }
             
-            return $this->render('weather-get-success', ['form' => $form, 'weather' => $weather]);
+            return $this->render('weather-get-success', ['form' => $form, 'weeklyWeather' => $weeklyWeather]);
         }
         
         return $this->render('weather-get', ['form' => $form]);
