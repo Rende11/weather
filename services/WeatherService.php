@@ -23,7 +23,7 @@ class WeatherService
 
         if ($response->isOk) {
             if (isset($response->data['data']['error'])) {
-                throw new Exception("Wrong input, response -> ${response}");
+                return ['error' => $response->data['data']['error'][0]['msg']];
             }
 
             $city = $response->data['data']['request'][0]['query'];
