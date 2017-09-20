@@ -17,7 +17,11 @@ use yii\helpers\Html;
         </div>
     <?php endif; ?>
 
-<?= $viewForm->field($form, 'city'); ?>
-<?= $viewForm->field($form, 'days'); ?>
+    <div class="jumbotron">
+        <p class="lead">Enter the city and number of days for forecast you need.</p>
+    </div>
+
+<?= $viewForm->field($form, 'city')->input('city', ['placeholder' => "London, Moscow etc"]);?>
+<?= $viewForm->field($form, 'days')->input('days', ['placeholder' => "4, 5, 6 etc"]); ?>
 <?= Html::submitButton('Send', ['class' => 'btn btn-success']); ?>
 <?php ActiveForm::end(); ?>

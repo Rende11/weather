@@ -13,22 +13,36 @@ $view = ActiveForm::begin(); ?>
     </div>
 <?php endif; ?>
 
-<?= $view->field($form, 'city'); ?>
-<?= $view->field($form, 'from')
-    ->hint('set start date')
-    -> widget(DatePicker::classname(), [
-        'language' => 'ru',
-        'dateFormat' => 'yyyy-MM-dd'
-    ]); ?>
-<br>
+<div class="jumbotron">
+    <p class="lead">Enter data for more info</p>
+</div>
 
-<?= $view->field($form, 'to')
-    ->hint('set end date')
-    ->widget(DatePicker::classname(), [
+
+<?= $view->field($form, 'city')->input('city', ['placeholder' => "London, Moscow etc"]); ?>
+
+<div class="row">
+
+    <div class="col-lg-6">
+        <?= $view->field($form, 'from')
+            ->widget(DatePicker::classname(), [
                 'language' => 'ru',
                 'dateFormat' => 'yyyy-MM-dd'
-    ]); ?>
-<br>
+            ])
+            ->input('from', ['placeholder' => "Start date - like 2017-02-21"]);
+        ?>
+        <br>
+    </div>
+    <div class="col-lg-6">
+        <?= $view->field($form, 'to')
+            ->widget(DatePicker::classname(), [
+                     'language' => 'ru',
+                        'dateFormat' => 'yyyy-MM-dd'
+                    ])
+            ->input('to', ['placeholder' => "End date - like 2017-03-05"]);
+        ?>
+        <br>
+    </div>
+</div>
 
 <?= Html::submitButton('Send', ['class' => 'btn btn-success']); ?>
 <?php ActiveForm::end(); ?>

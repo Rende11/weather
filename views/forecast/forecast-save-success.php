@@ -6,9 +6,12 @@ use yii\helpers\VarDumper;
 $f = ActiveForm::begin();
 
 ?>
-<?php foreach ($forecast as $day): ?>
+<div class="alert alert-success">
+  <strong>Success!</strong> Data saved to database.
+</div>
+<?php foreach ($forecast as $day) : ?>
 
-    <li>
+    <li class="list-group-item">
         <?= Html::encode("Date: {$day['date']} Temp: {$day['minTempC']}/{$day['maxTempC']}") ?>
     </li>
 <?php endforeach; ?>
