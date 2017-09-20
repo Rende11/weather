@@ -19,8 +19,8 @@ class Forecast extends ActiveRecord
     public function rules()
     {
         return [
-       ['id', 'unique'],
-       ['date', 'date']
-   ];
+        ['id', 'unique'],
+        ['date', 'date']
+        ];
     }
 }

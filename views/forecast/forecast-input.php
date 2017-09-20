@@ -19,5 +19,5 @@ use yii\helpers\Html;
 
 <?= $viewForm->field($form, 'city'); ?>
 <?= $viewForm->field($form, 'days'); ?>
-<?= Html::submitButton('Send'); ?>
+<?= Html::submitButton('Send', ['class' => 'btn btn-success']); ?>
 <?php ActiveForm::end(); ?>

@@ -12,19 +12,23 @@ $view = ActiveForm::begin(); ?>
         </div>
     </div>
 <?php endif; ?>
-    
+
 <?= $view->field($form, 'city'); ?>
-<?= $view->field($form, 'from')->hint('set start date')-> widget(DatePicker::classname(), [
+<?= $view->field($form, 'from')
+    ->hint('set start date')
+    -> widget(DatePicker::classname(), [
         'language' => 'ru',
         'dateFormat' => 'yyyy-MM-dd'
     ]); ?>
 <br>
 
-<?= $view->field($form, 'to')->hint('set end date')->widget(DatePicker::classname(), [
+<?= $view->field($form, 'to')
+    ->hint('set end date')
+    ->widget(DatePicker::classname(), [
                 'language' => 'ru',
                 'dateFormat' => 'yyyy-MM-dd'
     ]); ?>
 <br>
 
-<?= Html::submitButton('Send'); ?>
+<?= Html::submitButton('Send', ['class' => 'btn btn-success']); ?>
 <?php ActiveForm::end(); ?>

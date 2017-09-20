@@ -19,6 +19,7 @@ class WeatherService
             ->setMethod('get')
             ->setUrl($url)
             ->send();
+            //VarDumper::dump($response, 10, true);
 
         if ($response->isOk) {
             if (isset($response->data['data']['error'])) {
@@ -27,7 +28,7 @@ class WeatherService
 
             $city = $response->data['data']['request'][0]['query'];
             $weather = $response->data['data']['weather'];
-            
+
             $dailyWeather = [];
 
             if ($weather) {
@@ -57,12 +58,12 @@ class WeatherService
         $daily = $this->getForecast($city, $from, $to);
         $dateObjects = array_map(function ($day) {
             return [
-                                        'id' => $day['id'],
-                                        'city_id' => $day['city_id'],
-                                        'date' => new \DateTime($day['date']),
-                                        'minTempC' =>    $day['minTempC'],
-                                        'maxTempC' => $day['maxTempC']
-                        ];
+                    'id' => $day['id'],
+                    'city_id' => $day['city_id'],
+                    'date' => new \DateTime($day['date']),
+                    'minTempC' => $day['minTempC'],
+                    'maxTempC' => $day['maxTempC']
+            ];
         }, $daily);
         return array_chunk($dateObjects, $size);
     }
