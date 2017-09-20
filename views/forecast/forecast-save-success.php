@@ -12,7 +12,7 @@ $f = ActiveForm::begin();
 <?php foreach ($forecast as $day) : ?>
 
     <li class="list-group-item">
-        <?= Html::encode("Date: {$day['date']} Temp: {$day['minTempC']}/{$day['maxTempC']}") ?>
+        <?= Html::encode("Date: {$day['date']} Night temp: {$day['minTempC']} Daily temp: {$day['maxTempC']}") ?>
     </li>
 <?php endforeach; ?>
 
