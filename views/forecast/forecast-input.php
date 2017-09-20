@@ -2,11 +2,6 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
-
 ?>
 <?php $viewForm = ActiveForm::begin(); ?>
     <?php if (isset($error)) :?>

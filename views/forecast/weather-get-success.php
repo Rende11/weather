@@ -3,49 +3,22 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
-function showDay($day)
+function prepareDay($day)
 {
     $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
-    return "<td>" . Html::encode($string) . "</td>";
+    return Html::encode($string);
 }
-
-function showWeek($week)
-{
-    return array_map(function ($day) {
-        return showDay($day);
-    }, $week);
-}
-
-function showForecast($weeklyWeather)
-{
-    foreach ($weeklyWeather as $week) {
-        $weekNumber = $week[0]['date']->format('W');
-    }
-}
-
-ActiveForm::begin();
 ?>
-
-<table border="1">
-
-<?php
-
-$month = $weeklyWeather[0][0]['date']->format('F');
-echo "<caption>{$month}</caption>";
-    /*array_map(function ($week) {
-        echo "<tr>";
-        echo "<td>";
-        echo Html::encode($week[0]['date']->format('W'));
-        echo "</td>";
-        showWeek($week);
-    }, $weather);*/
-
-    showForecast($weeklyWeather);
-?>
-
+<h3>SOOO</h3>
+<table class="table table-bordered">
+    <?php foreach ($weeklyWeather as $week) : ?>
+        <tr>
+            <?php foreach ($week as $day) : ?>
+                <td>
+                    <?= prepareDay($day)?>
+                </td>
+            <?php endforeach; ?>
+        </tr>
+    <?php endforeach; ?>
 </table>
-
-<?php
- ActiveForm::end();
-?>
 

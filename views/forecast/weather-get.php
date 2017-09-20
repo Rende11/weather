@@ -3,6 +3,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 
+const SEC_IN_SIX_DAYS = 518400;
+
 $view = ActiveForm::begin(); ?>
 
 <?php if (isset($error)) :?>
@@ -26,9 +28,9 @@ $view = ActiveForm::begin(); ?>
         <?= $view->field($form, 'from')
             ->widget(DatePicker::classname(), [
                 'language' => 'ru',
-                'dateFormat' => 'yyyy-MM-dd'
+                'dateFormat' => 'yyyy-MM-dd',
             ])
-            ->input('from', ['placeholder' => "Start date - like 2017-02-21"]);
+            ->input('from', ['value' => date('Y-m-d')]);
         ?>
         <br>
     </div>
@@ -37,8 +39,8 @@ $view = ActiveForm::begin(); ?>
             ->widget(DatePicker::classname(), [
                      'language' => 'ru',
                         'dateFormat' => 'yyyy-MM-dd'
-                    ])
-            ->input('to', ['placeholder' => "End date - like 2017-03-05"]);
+             ])
+             ->input('to', ['value' => date('Y-m-d', time() + SEC_IN_SIX_DAYS)]);
         ?>
         <br>
     </div>

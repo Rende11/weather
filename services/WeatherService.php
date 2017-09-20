@@ -12,7 +12,7 @@ class WeatherService
     public function getForecastRequest($city, $days, $format = 'json')
     {
         $apiKey = Yii::$app->params['apiKey'];
-        $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$city}&num_of_days={$days}&format={$format}";
+        $url = $this->constructUrl($apiKey, $city, $days, $format);
         $client = new Client();
 
         $response = $client->createRequest()
@@ -29,16 +29,15 @@ class WeatherService
             $city = $response->data['data']['request'][0]['query'];
             $weather = $response->data['data']['weather'];
 
-            $dailyWeather = [];
 
-            if ($weather) {
-                $dailyWeather = array_map(function ($day) use ($city) {
-                    //$average = ($day['maxtempC'] + $day['mintempC']) / 2;
-                    return ['city' => $city, 'date' => $day['date'], 'minTempC' => $day['mintempC'], 'maxTempC' => $day['maxtempC']];
-                }, $weather);
-            }
+            $dailyWeather = array_map(function ($day) use ($city) {
+                return ['city' => $city, 'date' => $day['date'],
+                        'minTempC' => $day['mintempC'], 'maxTempC' => $day['maxtempC']];
+            }, $weather);
+
             return $dailyWeather;
         }
+        return ['error' => "Bad response from remote server - {$response}"];
     }
 
     public function saveForecast($dailyWeather)
@@ -66,5 +65,10 @@ class WeatherService
             ];
         }, $daily);
         return array_chunk($dateObjects, $size);
+    }
+    private function constructUrl($apiKey, $city, $days, $format)
+    {
+        $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$city}&num_of_days={$days}&format={$format}";
+        return $url;
     }
 }

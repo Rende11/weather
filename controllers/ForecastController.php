@@ -39,7 +39,6 @@ class ForecastController extends Controller
             if (sizeof($weeklyWeather) == 0) {
                 return $this->render('weather-get', ['form' => $form, 'error' => 'Data is not avalible']);
             }
-
             return $this->render('weather-get-success', ['form' => $form, 'weeklyWeather' => $weeklyWeather]);
         }
 
