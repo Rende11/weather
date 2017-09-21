@@ -29,7 +29,8 @@ class WeatherService
             $city = $response->data['data']['request'][0]['query'];
             $weather = $response->data['data']['weather'];
 
-
+            /*VarDumper::dump($response, 10, true);
+            exit(1);*/
             $dailyWeather = array_map(function ($day) use ($city) {
                 return ['city' => $city, 'date' => $day['date'],
                         'minTempC' => $day['mintempC'], 'maxTempC' => $day['maxtempC']];
