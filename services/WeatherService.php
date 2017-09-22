@@ -68,10 +68,10 @@ class WeatherService
             $week['avgAmp'] = array_sum($this->calcAmplitude($week)) / count($week);
             return $week;
         }, $weeklyForecast);
-        $weeklyWithAverage['maxAmp'] = $maxAmplitude;
+        //$weeklyWithAverage['maxAmp'] = $maxAmplitude;
         /*VarDumper::dump($weeklyWithAverage, 10, true);
         exit(1);*/
-        return $weeklyWithAverage;
+        return [$weeklyWithAverage, $maxAmplitude];
     }
 
     private function constructUrl($apiKey, $city, $days, $format)
