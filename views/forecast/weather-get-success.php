@@ -9,10 +9,20 @@ function prepareDay($day)
     return Html::encode($string);
 }
 ?>
-<h3>SOOO</h3>
 <table class="table table-bordered">
+        <tr>
+            <td><b>Week number</b></td>
+            <td colspan=7 align="center"><b>
+                <?= 'Month: ' . $month ?>
+            </b></td>
+        </tr>
     <?php foreach ($weeklyWeather as $week) : ?>
         <tr>
+            <td>
+                <?php $weekNumber =  $week[0]['date']->format('W');
+                    echo $weekNumber;
+                ?>
+            </td>
             <?php foreach ($week as $day) : ?>
                 <td>
                     <?= prepareDay($day)?>

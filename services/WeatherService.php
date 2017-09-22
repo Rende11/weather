@@ -22,6 +22,9 @@ class WeatherService
             //VarDumper::dump($response, 10, true);
 
         if ($response->isOk) {
+            if (!isset($response->data)) {
+                return ['error' => 'Empty data from remote server - please try again later'];
+            }
             if (isset($response->data['data']['error'])) {
                 return ['error' => $response->data['data']['error'][0]['msg']];
             }
@@ -29,8 +32,6 @@ class WeatherService
             $city = $response->data['data']['request'][0]['query'];
             $weather = $response->data['data']['weather'];
 
-            /*VarDumper::dump($response, 10, true);
-            exit(1);*/
             $dailyWeather = array_map(function ($day) use ($city) {
                 return ['city' => $city, 'date' => $day['date'],
                         'minTempC' => $day['mintempC'], 'maxTempC' => $day['maxtempC']];
@@ -57,19 +58,33 @@ class WeatherService
     {
         $daily = $this->getForecast($city, $from, $to);
         $dateObjects = array_map(function ($day) {
-            return [
-                    'id' => $day['id'],
-                    'city_id' => $day['city_id'],
-                    'date' => new \DateTime($day['date']),
-                    'minTempC' => $day['minTempC'],
-                    'maxTempC' => $day['maxTempC']
-            ];
+            $day['date'] =  new \DateTime($day['date']);
+            return $day;
         }, $daily);
-        return array_chunk($dateObjects, $size);
+
+        $maxAmplitude = max($this->calcAmplitude($dateObjects));
+        $weeklyForecast =  array_chunk($dateObjects, $size);
+        $weeklyWithAverage = array_map(function ($week) {
+            $week['avgAmp'] = array_sum($this->calcAmplitude($week)) / count($week);
+            return $week;
+        }, $weeklyForecast);
+        $weeklyWithAverage['maxAmp'] = $maxAmplitude;
+        /*VarDumper::dump($weeklyWithAverage, 10, true);
+        exit(1);*/
+        return $weeklyWithAverage;
     }
+
     private function constructUrl($apiKey, $city, $days, $format)
     {
         $url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key={$apiKey}&q={$city}&num_of_days={$days}&format={$format}";
         return $url;
+    }
+
+    private function calcAmplitude($forecast)
+    {
+        $dailyAmp = array_map(function ($day) {
+            return $day['maxTempC'] - $day['minTempC'];
+        }, $forecast);
+        return $dailyAmp;
     }
 }
