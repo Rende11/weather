@@ -5,8 +5,8 @@ use yii\helpers\VarDumper;
 
 function prepareDay($day)
 {
-
     $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
+    VarDumper::dump($string, 10, true);
     return Html::encode($string);
 }
 VarDumper::dump($weeklyWeather, 10, true);
@@ -16,7 +16,7 @@ exit(1);
         <tr>
             <td><b>Week number</b></td>
             <td colspan=7 align="center"><b>
-                <?= 'Month: ' . $month ?>
+                <?= 'Month: ' ?>
             </b></td>
         </tr>
     <?php foreach ($weeklyWeather as $week) : ?>

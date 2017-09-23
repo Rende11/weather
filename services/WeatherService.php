@@ -57,15 +57,19 @@ class WeatherService
     public function getWeeklyForecast($city, $from, $to, $size = 7)
     {
         $daily = $this->getForecast($city, $from, $to);
+        if (sizeof($daily) === 0) {
+            return [];
+        }
         $dateObjects = array_map(function ($day) {
             $day['date'] =  new \DateTime($day['date']);
             return $day;
         }, $daily);
-
+        /*VarDumper::dump($daily, 10, true);
+        exit(1);*/
         $maxAmplitude = max($this->calcAmplitude($dateObjects));
         $weeklyForecast =  array_chunk($dateObjects, $size);
         $weeklyWithAverage = array_map(function ($week) {
-            $week['avgAmp'] = array_sum($this->calcAmplitude($week)) / count($week);
+            $week[]['avgAmp'] = array_sum($this->calcAmplitude($week)) / count($week);
             return $week;
         }, $weeklyForecast);
         //$weeklyWithAverage['maxAmp'] = $maxAmplitude;
