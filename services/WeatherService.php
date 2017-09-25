@@ -69,8 +69,8 @@ class WeatherService
         $maxAmplitude = max($this->calcAmplitude($dateObjects));
         $weeklyForecast =  array_chunk($dateObjects, $size);
         $weeklyWithAverage = array_map(function ($week) {
-            $week[]['avgAmp'] = array_sum($this->calcAmplitude($week)) / count($week);
-            return $week;
+            $average = array_sum($this->calcAmplitude($week)) / count($week);
+            return ['week' => $week, 'average' => $average] ;
         }, $weeklyForecast);
         //$weeklyWithAverage['maxAmp'] = $maxAmplitude;
         /*VarDumper::dump($weeklyWithAverage, 10, true);
