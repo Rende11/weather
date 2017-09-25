@@ -8,6 +8,7 @@ function prepareDay($day)
     $string = sprintf("%s (%+d / %+d)", $day['date']->format('d M'), $day['minTempC'], $day['maxTempC']);
     return Html::encode($string);
 }
+
 ?>
 <table class="table table-bordered">
         <tr>
@@ -21,7 +22,7 @@ function prepareDay($day)
             <td>
             </td>
             <?php foreach ($week['week'] as $day) : ?>
-                <td>
+            <td bgcolor= <?="{$day['color']}"?>>
                     <?= prepareDay($day)?>
                 </td>
             <?php endforeach; ?>

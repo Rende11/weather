@@ -9,6 +9,11 @@ use yii\base\Exception;
 
 class WeatherService
 {
+    private $colorMap = [
+        'usual' => '#FFFFFF',
+        'warm' => '#FFFF00',
+        'hot' => '#FF0000'
+    ];
     public function getForecastRequest($city, $days, $format = 'json')
     {
         $apiKey = Yii::$app->params['apiKey'];
@@ -60,21 +65,23 @@ class WeatherService
         if (sizeof($daily) === 0) {
             return [];
         }
-        $dateObjects = array_map(function ($day) {
-            $day['date'] =  new \DateTime($day['date']);
+
+        $maxAmplitude = max($this->calcAmplitude($daily));
+
+        $dateObjects = array_map(function ($day) use ($maxAmplitude) {
+            $day['date'] = new \DateTime($day['date']);
+            $day['amplitude'] = $this->getDailyAmplitude($day);
+            $day['color'] = $day['amplitude'] === $maxAmplitude ? $this->colorMap['hot'] : $this->colorMap['usual'];
             return $day;
         }, $daily);
-        /*VarDumper::dump($daily, 10, true);
-        exit(1);*/
-        $maxAmplitude = max($this->calcAmplitude($dateObjects));
+
         $weeklyForecast =  array_chunk($dateObjects, $size);
+
         $weeklyWithAverage = array_map(function ($week) {
-            $average = array_sum($this->calcAmplitude($week)) / count($week);
-            return ['week' => $week, 'average' => $average] ;
+            $weeklyAverage = array_sum($this->calcAmplitude($week)) / count($week);
+            return ['week' => $week, 'weeklyAverage' => $weeklyAverage] ;
         }, $weeklyForecast);
-        //$weeklyWithAverage['maxAmp'] = $maxAmplitude;
-        /*VarDumper::dump($weeklyWithAverage, 10, true);
-        exit(1);*/
+
         return [$weeklyWithAverage, $maxAmplitude];
     }
 
@@ -84,6 +91,10 @@ class WeatherService
         return $url;
     }
 
+    private function getDailyAmplitude($day)
+    {
+        return $day['maxTempC'] - $day['minTempC'];
+    }
     private function calcAmplitude($forecast)
     {
         $dailyAmp = array_map(function ($day) {
