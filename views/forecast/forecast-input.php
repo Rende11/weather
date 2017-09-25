@@ -13,7 +13,7 @@ use yii\helpers\Html;
     <?php endif; ?>
 
     <div class="jumbotron">
-        <p class="lead">Enter the city and number of days for forecast you need.</p>
+        <h2>Enter the city and number of days for forecast you need.</h2>
     </div>
 
 <?= $viewForm->field($form, 'city')->input('city', ['placeholder' => "London, Moscow etc"]);?>

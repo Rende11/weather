@@ -39,15 +39,13 @@ class ForecastController extends Controller
             if (sizeof($weeklyWeather) == 0) {
                 return $this->render('weather-get', ['form' => $form, 'error' => 'Data is not avalible']);
             }
-            list($weekly, $maxAmp) = $weeklyWeather;
-            /*VarDumper::dump($weekly, 10, true);
-            exit(1);*/
-            $month = $weekly[0]['week'][0]['date']->format('W');
+
+            $month = $weeklyWeather[0][0]['date']->format('F');
             return $this->render('weather-get-success', [
                 'form' => $form,
-                'weeklyWeather' => $weekly,
-                'maxAmp' => $maxAmp,
-                'month' => $month
+                'weeklyWeather' => $weeklyWeather,
+                'month' => $month,
+                'colors' => $weatherService->colorMap
             ]);
         }
 

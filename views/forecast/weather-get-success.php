@@ -10,18 +10,28 @@ function prepareDay($day)
 }
 
 ?>
+<div class="container">
+    <div class="jumbotron">
+        <h2>Your forecast below</h2>
+        <p>Have a nice day!</p>
+    </div>
+</div>
+
 <table class="table table-bordered">
         <tr>
             <td><b>Week number</b></td>
             <td colspan=7 align="center"><b>
-                <?= 'Month: ' ?>
+                <?= "Month: ${month}" ?>
             </b></td>
         </tr>
     <?php foreach ($weeklyWeather as $key => $week) : ?>
         <tr>
             <td>
+                <?php
+                   echo  $weekNumber = $week[0]['date']->format('W');
+                ?>
             </td>
-            <?php foreach ($week['week'] as $day) : ?>
+            <?php foreach ($week as $day) : ?>
             <td bgcolor= <?="{$day['color']}"?>>
                     <?= prepareDay($day)?>
                 </td>
@@ -29,4 +39,24 @@ function prepareDay($day)
         </tr>
     <?php endforeach; ?>
 </table>
+
+
+
+<table class="table">
+    <thead>
+    Highlight days with:
+    </thead>
+    <tr>
+        <td bgcolor= <?="{$colors['warm']}"?>>
+        </td>
+        <td>
+        - Bigger than average weekly amplitude </td>
+        <td bgcolor= <?="{$colors['hot']}"?>>
+        </td>
+        <td>
+        - The largest amplitude for whole selected period
+        </td>
+    </tr>
+</table>
+
 

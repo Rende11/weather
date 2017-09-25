@@ -16,7 +16,7 @@ $view = ActiveForm::begin(); ?>
 <?php endif; ?>
 
 <div class="jumbotron">
-    <p class="lead">Enter data for more info</p>
+    <h2>Enter data for more info</h2>
 </div>
 
 

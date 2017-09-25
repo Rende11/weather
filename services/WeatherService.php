@@ -9,7 +9,7 @@ use yii\base\Exception;
 
 class WeatherService
 {
-    private $colorMap = [
+    public $colorMap = [
         'usual' => '#FFFFFF',
         'warm' => '#FFFF00',
         'hot' => '#FF0000'
@@ -79,18 +79,16 @@ class WeatherService
 
         $weeklyWithAverage = array_map(function ($week) {
             $weeklyAverage = array_sum($this->calcAmplitude($week)) / count($week);
-            $www = array_map(function ($day) use ($weeklyAverage) {
-            //VarDumper::dump([$weeklyAverage, $day['amplitude']], 10, true);
+            $coloredWeekly = array_map(function ($day) use ($weeklyAverage) {
                 if ($day['color'] === $this->colorMap['usual']) {
                     $day['color'] = $day['amplitude'] > $weeklyAverage ? $this->colorMap['warm'] : $this->colorMap['usual'];
                 }
-            VarDumper::dump($day, 10, true);
                 return $day;
             }, $week);
-            return ['week' => $www, 'weeklyAverage' => $weeklyAverage] ;
+            return $coloredWeekly;
         }, $weeklyForecast);
 
-        return [$weeklyWithAverage, $maxAmplitude];
+        return $weeklyWithAverage;
     }
 
     private function constructUrl($apiKey, $city, $days, $format)
