@@ -79,6 +79,12 @@ class WeatherService
 
         $weeklyWithAverage = array_map(function ($week) {
             $weeklyAverage = array_sum($this->calcAmplitude($week)) / count($week);
+            $www = array_map(function ($day) use ($weeklyAverage) {
+                if ($day['color'] === $this->colorMap['usual']) {
+                    $day['color'] = $day['amplitude'] > $weeklyAverage ? $this->colorMap['warm'] : $this->colorMap['usual'];
+                }
+                return $day;
+            }, $week);
             return ['week' => $week, 'weeklyAverage' => $weeklyAverage] ;
         }, $weeklyForecast);
 
